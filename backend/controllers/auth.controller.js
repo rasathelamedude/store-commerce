@@ -93,9 +93,46 @@ export const signUp = async (req, res, next) => {
   }
 };
 
-export const signIn = async (req, res, next) => {
+export const signIn = async (req, res) => {
   try {
-  } catch (error) {}
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      throw new Error("User doesn't exist!");
+    }
+
+    const isPasswordValid = await user.comparePassword(password);
+
+    if (!isPasswordValid) {
+      throw new Error("Password is invalid!");
+    }
+
+    const { accessToken, refreshToken } = generateTokens(user._id);
+    await storeRefreshToken(user._id, refreshToken);
+
+    setCookies(res, accessToken, refreshToken);
+
+    res.status(200).json({
+      success: true,
+      message: "Logged in successfully",
+      data: {
+        user: {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        },
+        token: refreshToken,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };
 
 export const signOut = async (req, res) => {
