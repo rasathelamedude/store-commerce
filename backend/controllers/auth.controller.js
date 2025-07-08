@@ -195,6 +195,11 @@ export const refreshToken = async (req, res) => {
       secure: NODE_ENV === "production",
       maxAge: 15 * 60 * 1000,
     });
+
+    res.status(200).json({
+      success: true,
+      message: "Access token refreshed successfully",
+    });
   } catch (error) {
     res.status(401).json({
       success: false,
