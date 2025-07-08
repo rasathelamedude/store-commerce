@@ -2,9 +2,10 @@
   "name": "store-commerce",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "backend/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon backend/app.js",
+    "start": "node backend/app.js"
   },
   "repository": {
     "type": "git",

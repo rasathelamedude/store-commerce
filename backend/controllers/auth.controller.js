@@ -31,10 +31,16 @@ export const signUp = async (req, res, next) => {
       },
     });
   } catch (error) {
-    next(error);
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
-export const signIn = async (req, res, next) => {};
+export const signIn = async (req, res, next) => {
+  try {
+  } catch (error) {}
+};
 
 export const signOut = async (req, res, next) => {};
