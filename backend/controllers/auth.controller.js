@@ -157,3 +157,48 @@ export const signOut = async (req, res) => {
     });
   }
 };
+
+export const refreshToken = async (req, res) => {
+  // re-creating (refreshing) an access token if it's expired;
+
+  // 1. user has to first provide a refresh token (from cookies);
+  // 2. decode that refresh token to get the user's ID;
+  // 3. get the value of that ID in our redis database;
+  // 4. if the provided refresh token is not the same as the one in the redis, error;
+  // 5. if not create a new token and set the cookie for it;
+
+  try {
+    const refreshToken = req.cookies.refreshToken;
+
+    if (!refreshToken) {
+      res
+        .status(401)
+        .json({ success: false, message: "No refresh token is provided" });
+    }
+
+    const decoded = jwt.verify(refreshToken, REFRESH_SECRET_KEY);
+    const storedToken = await redis.get(`refresh_token: ${decoded._id}`);
+
+    if (storedToken !== refreshToken) {
+      res
+        .status(401)
+        .json({ success: false, message: "refresh token is invalid" });
+    }
+
+    const accessToken = jwt.sign({ userId: decoded._id }, ACCESS_SECRET_KEY, {
+      expiresIn: "15m",
+    });
+
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      sameSite: "strict",
+      secure: NODE_ENV === "production",
+      maxAge: 15 * 60 * 1000,
+    });
+  } catch (error) {
+    res.status(401).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
