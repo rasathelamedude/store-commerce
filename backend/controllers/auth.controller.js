@@ -140,7 +140,7 @@ export const signOut = async (req, res) => {
     const refreshToken = req.cookies.refreshToken;
 
     if (refreshToken) {
-      const decoded = jwt.verify(refreshToken, REFRESH_SECRET_KEY);
+      const decoded = jwt.verify(refreshToken, REFRESH_SECRET_KEY); // we need the id associated with it;
       await redis.del(`refresh_token: ${decoded._id}`);
     }
 
@@ -177,7 +177,7 @@ export const refreshToken = async (req, res) => {
     }
 
     const decoded = jwt.verify(refreshToken, REFRESH_SECRET_KEY);
-    const storedToken = await redis.get(`refresh_token: ${decoded._id}`);
+    const storedToken = await redis.get(`refresh_token: ${decoded.userId}`);
 
     if (storedToken !== refreshToken) {
       res
