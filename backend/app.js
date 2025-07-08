@@ -3,6 +3,7 @@ import express from "express";
 import authRouter from "./routes/auth.routes.js";
 import { connectToDatabase } from "./lib/database.js";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(
     credentials: true,
   })
 );
+app.use(cookieParser());
 
 // routes;
 app.use("/api/v1/auth", authRouter);
