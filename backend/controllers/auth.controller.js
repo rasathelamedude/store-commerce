@@ -1,33 +1,88 @@
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
-import { JWT_SECRET_KEY, JWT_EXPIRES_IN } from "../config/env.js";
+import { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } from "../config/env.js";
+import { redis } from "../lib/redis.js";
+import { NODE_ENV } from "../config/env.js";
+
+// helper function to generate tokens;
+const generateTokens = (userId) => {
+  const accessToken = jwt.sign({ userId }, ACCESS_SECRET_KEY, {
+    expiresIn: "15m",
+  });
+
+  const refreshToken = jwt.sign({ userId }, REFRESH_SECRET_KEY, {
+    expiresIn: "7d",
+  });
+
+  return { accessToken, refreshToken };
+};
+
+// helper function to store refresh token;
+const storeRefreshToken = async (userId, refreshToken) => {
+  await redis.set(
+    `refresh_token: ${userId}`,
+    refreshToken,
+    "EX",
+    7 * 24 * 60 * 60
+  ); // expire in 7 days;
+};
+
+// helper function to set cookies;
+const setCookies = (res, accessToken, refreshToken) => {
+  res.cookie("accessToken", accessToken, {
+    httpOnly: true, // prevents xss attacks;
+    sameSite: "strict", // prevents CSRF attacks;
+    secure: NODE_ENV === "production", // only true in prod;
+    maxAge: 15 * 60 * 1000, // expires in 15 minutes;
+  });
+
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    sameSite: "strict",
+    secure: NODE_ENV === "production",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
+};
 
 export const signUp = async (req, res, next) => {
   try {
+    // get user details;
     const { name, email, password } = req.body;
 
+    // check if user already exists;
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
       throw new Error("User already exists");
     }
 
+    // create user;
     const user = await User.create({
       name,
       email,
       password,
     });
 
-    const token = jwt.sign({ userId: user._id }, JWT_SECRET_KEY, {
-      expiresIn: JWT_EXPIRES_IN,
-    });
+    // generate tokens;
+    const { accessToken, refreshToken } = generateTokens(user._id);
+
+    // save refresh token in the database (redis);
+    await storeRefreshToken(user._id, refreshToken);
+
+    // set cookies;
+    setCookies(res, accessToken, refreshToken);
 
     res.status(201).json({
       success: true,
       message: "Signed up successfully",
       data: {
-        user,
-        token,
+        user: {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        },
+        token: refreshToken,
       },
     });
   } catch (error) {
