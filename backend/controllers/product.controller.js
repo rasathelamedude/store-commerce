@@ -18,3 +18,23 @@ export const getAllProducts = async (req, res) => {
     });
   }
 };
+
+export const getFeaturedProducts = async (req, res) => {
+  try {
+    const featuredProducts = await Product.find({ isFeatured: true });
+
+    res.status(200).json({
+      success: true,
+      message: "Fetched featured products",
+      result: featuredProducts.length,
+      data: {
+        featuredProducts,
+      },
+    });
+  } catch (error) {
+    res.status(404).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
