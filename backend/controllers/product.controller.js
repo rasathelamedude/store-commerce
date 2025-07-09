@@ -85,9 +85,50 @@ export const createProducts = async (req, res) => {
       description,
       price,
       image: cloudinaryResponse?.secure_url
-      ? cloudinaryResponse.secure_url
-      : "",
+        ? cloudinaryResponse.secure_url
+        : "",
       category,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// delete product in both the database and cloudinary; 
+export const deleteProduct = async (req, res) => {
+  try {
+    // first find the product;
+    const product = await Product.findById(req.params.productId);
+
+    // check if we have it with that id;
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    // check if an image was provided for it;
+    if (product.image) {
+      // get id of the image;
+      const publicId = product.image.split("/").pop().split(".")[0];
+
+      // delete it from cloudinary;
+      try {
+        await cloudinary.uploader.destroy(`products/${publicId}`);
+      } catch (error) {
+        throw new Error(error);
+      }
+    }
+
+    await Product.findByIdAndDelete(req.params.productId);
+
+    res.status(204).json({
+      success: true,
+      message: "Product deleted successfully",
     });
   } catch (error) {
     res.status(400).json({
