@@ -169,3 +169,24 @@ export const getRecommendedProducts = async (req, res) => {
     });
   }
 };
+
+export const getProductsByCategory = async (req, res) => {
+  try {
+    const category = req.params.categoryName;
+
+    const products = await Product.find({ category });
+
+    res.status(200).json({
+      success: true,
+      message: `Fetched products by ${category}`,
+      data: {
+        products,
+      }
+    });
+  } catch (error) {
+    res.status(404).json({
+      success: false,
+      message: error.message,
+    })
+  }
+}

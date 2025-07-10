@@ -13,6 +13,7 @@ const productRouter = Router();
 productRouter.get("/", protectRoute, adminRoute, getAllProducts);
 productRouter.get("/featured", getFeaturedProducts);
 productRouter.get("/recommendations", getRecommendedProducts);
+productRouter.get("/category/:categoryName", getProductsByCategory);
 
 productRouter.post("/", protectRoute, adminRoute, createProducts);
 
