@@ -97,7 +97,7 @@ export const createProducts = async (req, res) => {
   }
 };
 
-// delete product in both the database and cloudinary; 
+// delete product in both the database and cloudinary;
 export const deleteProduct = async (req, res) => {
   try {
     // first find the product;
@@ -132,6 +132,38 @@ export const deleteProduct = async (req, res) => {
     });
   } catch (error) {
     res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const getRecommendedProducts = async (req, res) => {
+  try {
+    const products = await Product.aggregate([
+      {
+        $sample: { size: 3 },
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          description: 1,
+          image: 1,
+          price: 1,
+        },
+      },
+    ]);
+
+    res.status(200).json({
+      success: true,
+      message: "Fetched recommended products!",
+      data: {
+        products,
+      },
+    });
+  } catch (error) {
+    res.status(404).json({
       success: false,
       message: error.message,
     });
