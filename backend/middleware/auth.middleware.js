@@ -28,18 +28,17 @@ export const protectRoute = async (req, res, next) => {
   }
 };
 
-
 export const adminRoute = async (req, res, next) => {
-    try {
-        if (req.user && req.user.role === "admin") {
-            next();
-        } else {
-            throw new Error("Access denied - Admin only");
-        }
-    } catch (error) {
-        res.status(403).json({
-            success: false, 
-            message: error.message,
-        });
+  try {
+    if (req.user && req.user.role === "admin") {
+      next();
+    } else {
+      throw new Error("Access denied - Admin only");
     }
-}
+  } catch (error) {
+    res.status(403).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

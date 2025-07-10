@@ -2,6 +2,20 @@ import Product from "../models/product.model.js";
 import { redis } from "../lib/redis.js";
 import cloudinary from "../config/cloudinary.js";
 
+// helper function to update featured products in cache;
+async function updateFeaturedProductsCache(newProduct) {
+  try {
+    const featuredProducts = await Product.find({ isFeatured: true }).lean();
+
+    await redis.set("featured_products", JSON.stringify(featuredProducts));
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error updating the cache!",
+    });
+  }
+}
+
 export const getAllProducts = async (req, res) => {
   try {
     const products = await Product.find();
@@ -181,12 +195,46 @@ export const getProductsByCategory = async (req, res) => {
       message: `Fetched products by ${category}`,
       data: {
         products,
-      }
+      },
     });
   } catch (error) {
     res.status(404).json({
       success: false,
       message: error.message,
-    })
+    });
   }
-}
+};
+
+export const toggleFeaturedProduct = async (req, res) => {
+  try {
+    // get product;
+    const product = await Product.findById(req.params.productId);
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found!",
+      });
+    }
+
+    // update isFeatured;
+    product.isFeatured = !product.isFeatured;
+    const updatedProduct = await product.save();
+
+    // update cache;
+    await updateFeaturedProductsCache();
+
+    res.status(200).json({
+      success: true,
+      message: "Featured product successfully!",
+      data: {
+        updatedProduct,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
