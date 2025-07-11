@@ -22,11 +22,11 @@ const userSchema = new mongoose.Schema(
     cartItems: [
       // cartItems will be an array of objects;
       {
-        quantity: {
+        quantity: { // quantity of the product;
           type: Number,
           default: 1,
         },
-        product: {
+        product: { // product ID;
           type: mongoose.Schema.Types.ObjectId,
           ref: "Product",
         },

@@ -5,6 +5,7 @@ import { connectToDatabase } from "./lib/database.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import productRouter from "./routes/products.route.js";
+import cartRouter from "./routes/cart.route.js";
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(cookieParser());
 // routes;
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/products", productRouter);
+app.use("/api/v1/cart", cartRouter);
 
 app.listen(PORT, async () => {
   console.log(`Server started on port ${PORT}`);

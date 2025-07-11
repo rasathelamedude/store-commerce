@@ -3,7 +3,7 @@ import { redis } from "../lib/redis.js";
 import cloudinary from "../config/cloudinary.js";
 
 // helper function to update featured products in cache;
-async function updateFeaturedProductsCache(newProduct) {
+async function updateFeaturedProductsCache() {
   try {
     const featuredProducts = await Product.find({ isFeatured: true }).lean();
 
