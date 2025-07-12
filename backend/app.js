@@ -6,6 +6,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import productRouter from "./routes/products.route.js";
 import cartRouter from "./routes/cart.route.js";
+import couponRouter from "./routes/coupon.route.js";
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(cookieParser());
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/cart", cartRouter);
+app.use("/api/v1/coupons", couponRouter);
 
 app.listen(PORT, async () => {
   console.log(`Server started on port ${PORT}`);
