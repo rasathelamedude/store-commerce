@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import productRouter from "./routes/products.route.js";
 import cartRouter from "./routes/cart.route.js";
 import couponRouter from "./routes/coupon.route.js";
+import paymentRouter from "./routes/payment.route.js";
 
 const app = express();
 
@@ -19,13 +20,14 @@ app.use(
     credentials: true,
   })
 );
-app.use(cookieParser());
+app.use(cookieParser()); // needed to work with cookies;
 
 // routes;
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/cart", cartRouter);
 app.use("/api/v1/coupons", couponRouter);
+app.use("/api/v1/payments", paymentRouter);
 
 app.listen(PORT, async () => {
   console.log(`Server started on port ${PORT}`);
