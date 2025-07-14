@@ -207,3 +207,20 @@ export const refreshToken = async (req, res) => {
     });
   }
 };
+
+export const getProfile = async (req, res) => {
+  try {
+    res.status(200).json({
+      success: true,
+      message: "Fetched user profile",
+      data: {
+        user: req.user,
+      },
+    });
+  } catch (error) {
+    res.status(401).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
