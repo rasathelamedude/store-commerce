@@ -1,6 +1,6 @@
 import Product from "../models/product.model.js";
 import { redis } from "../lib/redis.js";
-import cloudinary from "../config/cloudinary.js";
+import cloudinary from "../lib/cloudinary.js";
 
 // helper function to update featured products in cache;
 async function updateFeaturedProductsCache() {

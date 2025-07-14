@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { ACCESS_SECRET_KEY } from "../config/env.js";
+import { ACCESS_SECRET_KEY } from "../lib/env.js";
 import User from "../models/user.model.js";
 
 export const protectRoute = async (req, res, next) => {

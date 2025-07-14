@@ -1,4 +1,4 @@
-import { PORT } from "./config/env.js";
+import { PORT } from "./lib/env.js";
 import express from "express";
 import authRouter from "./routes/auth.route.js";
 import { connectToDatabase } from "./lib/database.js";

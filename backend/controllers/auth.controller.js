@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
-import { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } from "../config/env.js";
+import { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } from "../lib/env.js";
 import { redis } from "../lib/redis.js";
-import { NODE_ENV } from "../config/env.js";
+import { NODE_ENV } from "../lib/env.js";
 
 // helper function to generate tokens;
 const generateTokens = (userId) => {

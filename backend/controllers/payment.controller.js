@@ -1,7 +1,7 @@
 import Coupon from "../models/coupon.model.js";
 import Order from "../models/order.model.js";
 import { stripe } from "../lib/stripe.js";
-import { CLIENT_URL } from "../config/env.js";
+import { CLIENT_URL } from "../lib/env.js";
 
 // helper function to create one-time-use coupon;
 async function createStripeCoupon(discountPercentage) {
