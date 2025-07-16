@@ -69,13 +69,25 @@ export const useUserStore = create((set, get) => ({
 
   // Check authentication function;
   checkAuth: async () => {
-    set({checkingAuth: true});
+    set({ checkingAuth: true });
 
     try {
       const res = await axios.get("/api/v1/auth/profile");
-      set({user: res.data.data.user, checkingAuth: false});
+      set({ user: res.data.data.user, checkingAuth: false });
     } catch (error) {
-      set({checkingAuth: false, user: null});
+      set({ checkingAuth: false, user: null });
     }
-  }
+  },
+
+  logout: async () => {
+    try {
+      await axios.post("/api/v1/auth/sign-out");
+
+      set({ user: null });
+
+      toast.success("Signed out successfully!");
+    } catch (error) {
+      toast.error(error.response?.data?.message);
+    }
+  },
 }));
