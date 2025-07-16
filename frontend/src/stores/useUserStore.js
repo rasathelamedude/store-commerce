@@ -66,4 +66,16 @@ export const useUserStore = create((set, get) => ({
       toast.error(error.response.data.message || "An error occured.");
     }
   },
+
+  // Check authentication function;
+  checkAuth: async () => {
+    set({checkingAuth: true});
+
+    try {
+      const res = await axios.get("/api/v1/auth/profile");
+      set({user: res.data.data.user, checkingAuth: false});
+    } catch (error) {
+      set({checkingAuth: false, user: null});
+    }
+  }
 }));
