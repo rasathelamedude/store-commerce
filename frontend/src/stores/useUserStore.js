@@ -9,7 +9,6 @@ export const useUserStore = create((set, get) => ({
 
   // signup function;
   signup: async (formData) => {
-    console.log("Hello I'm sign up function");
     set({ loading: true });
 
     if (formData.password !== formData.confirmPassword) {
@@ -35,12 +34,36 @@ export const useUserStore = create((set, get) => ({
       );
 
       set({ user: res.data.data.user, loading: false });
-      toast.success("Signed up successfully!");
+      toast.success(res.data.message);
     } catch (error) {
       set({ loading: false });
       toast.error(error.response.data.message || "An error occured!");
     }
   },
 
-  
+  // login function;
+  login: async (email, password) => {
+    try {
+      set({ loading: true });
+
+      const res = await axios.post(
+        "/api/v1/auth/sign-in",
+        {
+          email,
+          password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      set({ user: res.data.data.user, loading: false });
+      toast.success(res.data.message);
+    } catch (error) {
+      set({ loading: false });
+      toast.error(error.response.data.message || "An error occured.");
+    }
+  },
 }));

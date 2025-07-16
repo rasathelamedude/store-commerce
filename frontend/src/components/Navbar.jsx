@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { UserPlus, ShoppingCart, LogIn, LogOut, Lock } from "lucide-react";
+import { useUserStore } from "../stores/useUserStore";
 
 const Navbar = () => {
-  const user = true;
+  const { user } = useUserStore();
   const isAdmin = true;
 
   return (
@@ -45,7 +46,10 @@ const Navbar = () => {
 
             {/* Dashboard button */}
             {isAdmin && (
-              <Link to={"/dashboard"} className="bg-emerald-700 text-white px-3 py-1 rounded-md font-medium transition duration-300 ease-in-out flex items-center cursor-pointer">
+              <Link
+                to={"/dashboard"}
+                className="bg-emerald-700 text-white px-3 py-1 rounded-md font-medium transition duration-300 ease-in-out flex items-center cursor-pointer"
+              >
                 <Lock className="inline-block mr-1" size={18} />
                 <span className="hidden sm:inline">Dashboard</span>
               </Link>
