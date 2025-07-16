@@ -1,6 +1,7 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
-const FormInput = ({ label, htmlFor, Icon, value, onChange, type, placeholder }) => {
+const FormInput = ({ label, htmlFor, Icon, value, onChange, type, placeholder, minLength }) => {
   return (
     <div>
       <label
@@ -14,6 +15,7 @@ const FormInput = ({ label, htmlFor, Icon, value, onChange, type, placeholder })
           <Icon className="h-5 w-5 text-gray-400" aria-hidden="true" />
         </div>
         <input
+          minLength={minLength || 0}
           type={type}
           id={htmlFor}
           required
@@ -26,5 +28,9 @@ const FormInput = ({ label, htmlFor, Icon, value, onChange, type, placeholder })
     </div>
   );
 };
+
+FormInput.propTypes = {
+  minLength: PropTypes.number,
+}
 
 export default FormInput;

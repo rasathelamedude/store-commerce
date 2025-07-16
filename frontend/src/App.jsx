@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage.jsx";
 import SignUpPage from "./pages/SignUpPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
+import { Toaster } from "react-hot-toast";
 
 import Navbar from "./components/Navbar.jsx";
 
@@ -16,6 +17,7 @@ function App() {
       </div>
 
       <div className="relative z-50 pt-20">
+        <Toaster />
         <Navbar />
 
         <Routes>
