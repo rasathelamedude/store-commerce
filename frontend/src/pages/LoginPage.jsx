@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { LogIn, Mail, Lock, ArrowRight, Loader } from "lucide-react";
 import { useUserStore } from "../stores/useUserStore";
-import FormInput from '../components/FormInput.jsx';
+import FormInput from "../components/FormInput.jsx";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -12,9 +12,9 @@ const LoginPage = () => {
 
   const { login, loading } = useUserStore();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    login(email, password);
+    await login(email, password);
   };
 
   return (

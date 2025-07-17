@@ -47,7 +47,7 @@ const Navbar = () => {
             {/* Dashboard button */}
             {isAdmin && (
               <Link
-                to={"/dashboard"}
+                to={"/secret-dashboard"}
                 className="bg-emerald-700 text-white px-3 py-1 rounded-md font-medium transition duration-300 ease-in-out flex items-center cursor-pointer"
               >
                 <Lock className="inline-block mr-1" size={18} />

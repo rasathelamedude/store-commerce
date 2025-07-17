@@ -90,4 +90,17 @@ export const useUserStore = create((set, get) => ({
       toast.error(error.response?.data?.message);
     }
   },
+
+  // Fetching all the products;
+  fetchAllProducts: async () => {
+    try {
+      set({ loading: true });
+      const products = await axios.get("/api/v1/products/");
+
+      set({ loading: false });
+      return products;
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  },
 }));

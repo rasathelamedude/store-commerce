@@ -9,11 +9,12 @@ import cartRouter from "./routes/cart.route.js";
 import couponRouter from "./routes/coupon.route.js";
 import paymentRouter from "./routes/payment.route.js";
 import analyticsRouter from "./routes/analytics.route.js";
+import errorMiddleware from "./middleware/error.middleware.js";
 
 const app = express();
 
 // built-in | third part middlewares;
-app.use(express.json());
+app.use(express.json({ limit: "10mb" })); // allow 10mb of 
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
@@ -22,6 +23,7 @@ app.use(
   })
 );
 app.use(cookieParser()); // needed to work with cookies;
+app.use(errorMiddleware);
 
 // routes;
 app.use("/api/v1/auth", authRouter);
