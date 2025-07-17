@@ -22,7 +22,7 @@ const CreateProductForm = () => {
     image: "",
   });
 
-  const { createProduct, loading } = useProductStore();
+  const { createProduct, loading, setLoading } = useProductStore();
 
   const handleSubmit = async (e) => {
     try {
@@ -38,6 +38,7 @@ const CreateProductForm = () => {
         image: "",
       });
     } catch (error) {
+      setLoading(false);
       console.log("Error occured when creating product: " + error.message);
     }
   };
@@ -51,12 +52,12 @@ const CreateProductForm = () => {
       const reader = new FileReader();
 
       // after reading the file assign it to newProduct.image;
-      reader.onloadend(() => {
+      reader.onloadend = () => {
         setNewProduct({
           ...newProduct,
           image: reader.result,
         });
-      });
+      };
 
       reader.readAsDataURL(file); // converts to base64 format;
     }
