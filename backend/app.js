@@ -14,7 +14,7 @@ import errorMiddleware from "./middleware/error.middleware.js";
 const app = express();
 
 // built-in | third part middlewares;
-app.use(express.json({ limit: "10mb" })); // allow 10mb of 
+app.use(express.json({ limit: "10mb" })); // allow 10mb of payload as request;
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({

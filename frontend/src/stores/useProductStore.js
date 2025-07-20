@@ -87,4 +87,18 @@ export const useProductStore = create((set) => ({
       toast.error(error.response.data.message);
     }
   },
+
+  // fetch by category;
+  getCategoryProducts: async (category) => {
+    set({ loading: true });
+
+    try {
+      const products = await axios.get(`/api/v1/products/category/${category}`);
+
+      set({ loading: false, products: products.data.data.products });
+    } catch (error) {
+      set({ loading: false });
+      toast.error(error.response.data.message);
+    }
+  },
 }));

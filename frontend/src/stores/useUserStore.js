@@ -75,6 +75,7 @@ export const useUserStore = create((set, get) => ({
       const res = await axios.get("/api/v1/auth/profile");
       set({ user: res.data.data.user, checkingAuth: false });
     } catch (error) {
+      toast.error(error.response.data.message);
       set({ checkingAuth: false, user: null });
     }
   },
