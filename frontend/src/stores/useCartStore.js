@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import axios from "../lib/axios.js";
 import { toast } from "react-hot-toast";
+import { data } from "react-router-dom";
 
 export const useCartStore = create((set, get) => ({
   cart: [],
@@ -48,6 +49,41 @@ export const useCartStore = create((set, get) => ({
     } catch (error) {
       set({ loading: false });
       toast.error(error.response.data.message || "An error occured.");
+    }
+  },
+
+  removeFromCart: async (productId) => {
+    try {
+      await axios.delete(`/api/v1/cart/${productId}`);
+
+      const newCart = get().cart.filter((item) => item._id !== productId);
+
+      get().calculateTotals();
+      toast.success("Product removed from cart successfully!");
+      set({ cart: newCart });
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  },
+
+  updateQuantity: async (productId, quantity) => {
+    if (quantity === 0) {
+      get().removeFromCart(productId);
+      return;
+    }
+
+    try {
+      await axios.patch(`/api/v1/cart/${productId}`, { quantity });
+
+      set((prevState) => ({
+        cart: prevState.cart.map((item) =>
+          item._id === productId ? { ...item, quantity } : item
+        ),
+      }));
+
+      get().calculateTotals();
+    } catch (error) {
+      toast.error(error.response.data.message);
     }
   },
 
