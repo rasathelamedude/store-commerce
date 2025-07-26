@@ -9,6 +9,7 @@ export const useCartStore = create((set, get) => ({
   loading: false,
   total: 0,
   subtotal: 0,
+  isCouponApplied: false,
 
   getCartItems: async () => {
     set({ loading: true });

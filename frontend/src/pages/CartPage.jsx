@@ -5,6 +5,8 @@ import { ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
 import CartItem from "../components/CartItem.jsx";
 import PeopleAlsoBought from "../components/PeopleAlsoBought.jsx";
+import OrderSummary from "../components/OrderSummary.jsx";
+import GiftCouponCard from "../components/GiftCouponCard.jsx";
 
 const CartPage = () => {
   const { getCartItems, cart } = useCartStore();
@@ -31,6 +33,18 @@ const CartPage = () => {
 
             {cart.length > 0 && <PeopleAlsoBought />}
           </motion.div>
+
+          {cart.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="mx-auto mt-6 flex-1 max-w-4xl space-y-6 lg:mt-0 lg:w-full"
+            >
+              <OrderSummary />
+              <GiftCouponCard />
+            </motion.div>
+          )}
         </div>
       </div>
     </div>
