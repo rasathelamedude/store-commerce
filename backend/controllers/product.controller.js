@@ -94,13 +94,13 @@ export const createProducts = async (req, res) => {
       });
     }
 
-    const product = Product.create({
+    const product = await Product.create({
       name,
       description,
       price,
       image: cloudinaryResponse?.secure_url
         ? cloudinaryResponse.secure_url
-        : "",
+        : null,
       category,
     });
 

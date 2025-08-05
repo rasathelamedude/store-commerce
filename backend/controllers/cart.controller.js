@@ -34,8 +34,8 @@ export const addToCart = async (req, res) => {
     const { productId } = req.body;
 
     // try finding the product in the user's cartItem;
-    const existingProduct = user.cartItems.find(
-      (item) => item.id === productId
+    const existingProduct = user.cartItems?.find(
+      (item) => item.product.toString() === productId
     );
 
     if (existingProduct) {
@@ -43,7 +43,7 @@ export const addToCart = async (req, res) => {
       existingProduct.quantity += 1;
     } else {
       // else add it;
-      user.cartItems.push(productId);
+      user.cartItems.push({ product: productId });
     }
 
     // save the changes;
@@ -54,7 +54,7 @@ export const addToCart = async (req, res) => {
       message: "Product added to cart",
     });
   } catch (error) {
-    res.status().json({
+    res.status(400).json({
       success: false,
       message: error.message,
     });

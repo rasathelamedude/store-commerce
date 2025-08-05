@@ -22,11 +22,13 @@ const userSchema = new mongoose.Schema(
     cartItems: [
       // cartItems will be an array of objects;
       {
-        quantity: { // quantity of the product;
+        quantity: {
+          // quantity of the product;
           type: Number,
           default: 1,
         },
-        product: { // product ID;
+        product: {
+          // product ID;
           type: mongoose.Schema.Types.ObjectId,
           ref: "Product",
         },
@@ -46,6 +48,9 @@ const userSchema = new mongoose.Schema(
 // hashing passwords with pre-save hook;
 userSchema.pre("save", async function (next) {
   try {
+    // when password is not modified, no need to re-hash it (adding to cart);
+    if (!this.isModified("password")) return next();
+
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
     next();

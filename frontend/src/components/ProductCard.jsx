@@ -7,6 +7,7 @@ import { useCartStore } from "../stores/useCartStore.js";
 const ProductCard = ({ product }) => {
   const { user } = useUserStore();
   const { addToCart } = useCartStore();
+
   const handleAddToCart = () => {
     if (!user) {
       return toast.error("You must be logged in to add a product to cart", {
@@ -22,7 +23,7 @@ const ProductCard = ({ product }) => {
       <div className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl">
         <img
           className="object-cover w-full"
-          src={product.image}
+          src={product.image || null}
           alt="Product image"
         />
         <div className="absolute inset-0 bg-black bgopacity-20" />

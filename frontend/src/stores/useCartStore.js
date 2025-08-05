@@ -20,7 +20,7 @@ export const useCartStore = create((set, get) => ({
       get().calculateTotals();
     } catch (error) {
       set({ cart: [], loading: false });
-      toast.error(error.response.data.message);
+      toast.error("Couldn't fetch cart items.");
     }
   },
 
