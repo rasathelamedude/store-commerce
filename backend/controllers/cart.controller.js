@@ -2,15 +2,18 @@ import Product from "../models/product.model.js";
 
 export const getCartProducts = async (req, res) => {
   try {
-    const products = await Product.find({ _id: { $in: req.user.cartItems } });
+    const productIds = req.user.cartItems.map((item) => item.product);
+    const products = await Product.find({ _id: { $in: productIds } });
 
     // products don't have quantity property;
     const cartItems = products.map((product) => {
       // find the current product in user's cart items;
-      const item = req.user.cartItems.find((item) => item.id === product.id);
+      const item = req.user.cartItems.find(
+        (item) => item.product.toString() === product._id.toString()
+      );
 
       // append the cart items quantity to the product object;
-      return { ...product.toJSON(), quantity: item.quantity };
+      return { ...product.toJSON(), quantity: item?.quantity || 1 };
     });
 
     res.status(200).json({
