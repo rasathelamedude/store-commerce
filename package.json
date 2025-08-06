@@ -20,26 +20,16 @@
   },
   "homepage": "https://github.com/rasathelamedude/store-commerce#readme",
   "dependencies": {
-    "@stripe/stripe-js": "^7.4.0",
-    "axios": "^1.10.0",
-    "bcryptjs": "^3.0.2",
-    "cloudinary": "^2.7.0",
-    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
-    "dotenv": "^17.0.1",
     "express": "^5.1.0",
-    "framer-motion": "^12.23.5",
+    "mongoose": "^8.16.2",
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "axios": "^1.10.0",
+    "cloudinary": "^2.7.0",
+    "dotenv": "^17.0.1",
     "ioredis": "^5.6.1",
     "jsonwebtoken": "^9.0.2",
-    "lucide-react": "^0.525.0",
-    "mongoose": "^8.16.2",
-    "nodemon": "^3.1.10",
-    "prop-types": "^15.8.1",
-    "react-confetti": "^6.4.0",
-    "react-hot-toast": "^2.5.2",
-    "react-router-dom": "^7.6.3",
-    "recharts": "^3.1.0",
-    "stripe": "^18.3.0",
-    "zustand": "^5.0.6"
+    "nodemon": "^3.1.10"
   }
 }
