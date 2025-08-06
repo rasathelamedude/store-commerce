@@ -12,7 +12,7 @@ const PeopleAlsoBought = () => {
       try {
         const response = await fetch("/api/v1/products/recommendations");
         const data = await response.json();
-        setRecommendations(data);
+        setRecommendations(data.data.products);
       } catch (error) {
         toast.error(
           error.message ||
@@ -34,7 +34,7 @@ const PeopleAlsoBought = () => {
         People also bought
       </h3>
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg: grid-col-3">
-        {recommendations.map((product) => (
+        {recommendations?.map((product) => (
           <ProductCard key={product._id} product={product} />
         ))}
       </div>

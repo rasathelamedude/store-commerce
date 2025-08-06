@@ -12,14 +12,13 @@ export const useCartStore = create((set, get) => ({
   isCouponApplied: false,
 
   getCartItems: async () => {
-    set({ loading: true });
     try {
       const res = await axios.get("/api/v1/cart");
-      const cart = res.data.data.cart;
-      set({ cart, loading: false });
+      const cart = res?.data?.data?.cartItems;
+      set({ cart });
       get().calculateTotals();
     } catch (error) {
-      set({ cart: [], loading: false });
+      set({ cart: [] });
       toast.error("Couldn't fetch cart items.");
     }
   },

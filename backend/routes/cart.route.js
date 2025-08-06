@@ -13,7 +13,7 @@ cartRouter.get("/", protectRoute, getCartProducts);
 
 cartRouter.post("/", protectRoute, addToCart);
 
-cartRouter.put("/:productId", protectRoute, updateQuantity);
+cartRouter.patch("/:productId", protectRoute, updateQuantity);
 
 cartRouter.delete("/:productId", protectRoute, deleteAllFromCart);
 

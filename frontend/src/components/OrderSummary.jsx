@@ -6,10 +6,10 @@ import { MoveRight } from "lucide-react";
 
 const OrderSummary = () => {
   const { total, subtotal, coupon, isCouponApplied } = useCartStore();
-  const savings = subtotal - total;
-  const formattedSubtotal = subtotal.toFixed(2);
-  const formattedTotal = total.toFixed(2);
-  const formattedSavings = savings.toFixed(2);
+  const savings = (subtotal ?? 0) - (total ?? 0);
+  const formattedSubtotal = (subtotal ?? 0).toFixed(2);
+  const formattedTotal = (total ?? 0).toFixed(2);
+  const formattedSavings = (savings ?? 0).toFixed(2);
 
   const handlePayment = () => {};
 

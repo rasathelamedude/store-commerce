@@ -5,11 +5,11 @@ import { useCartStore } from '../stores/useCartStore.js';
 
 const GiftCouponCard = () => {
     const [userInputCode, setUserInputCode] = useState('');
+	
+    const {coupon, isCouponApplied} = useCartStore();
 
     const handleApplyCoupon = () => {};
     const handleRemoveCoupon = () => {};
-
-    const {coupon, isCouponApplied} = useCartStore();
 
   return (
     <motion.div
