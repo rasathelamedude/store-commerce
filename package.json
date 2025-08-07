@@ -25,6 +25,7 @@
     "mongoose": "^8.16.2",
     "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
+    "stripe": "^18.3.0",
     "axios": "^1.10.0",
     "cloudinary": "^2.7.0",
     "dotenv": "^17.0.1",

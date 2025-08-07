@@ -52,10 +52,11 @@ export const createCheckoutSession = async (req, res) => {
           currency: "USD",
           product_data: {
             name: product.name,
-            image: product.image,
+            images: product.image ? [product.image] : [],
           },
-          unit_price: amount,
+          unit_amount: amount,
         },
+        quantity: product.quantity || 1,
       };
     });
 
