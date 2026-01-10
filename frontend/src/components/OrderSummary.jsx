@@ -24,10 +24,8 @@ const OrderSummary = () => {
     });
 
     const sessionId = res?.data?.sessionId;
-    console.log("Session id is: " + sessionId);
 
     const result = await stripe.redirectToCheckout({ sessionId });
-    console.log("Redirected, result is: " + result);
 
     if (result.error) {
       console.error("ERROR: result error is: " + result.error);
