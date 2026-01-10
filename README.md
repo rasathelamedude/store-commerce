@@ -261,8 +261,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Rasyar Safin Mustafa**
 - GitHub: [@rasathelamedude](https://github.com/rasathelamedude)
-- LinkedIn: [Rasyar Safin]([https://linkedin.com/in/rasyar-safin-1b103b29](https://www.linkedin.com/in/rasyar-safin-1b105b2b9/))
-- Portfolio: [rasyar.netlify.app]([https://rasyar.netlify.app](https://rasyar.netlify.app/))
+- LinkedIn: [Rasyar Safin](https://www.linkedin.com/in/rasyar-safin-1b105b2b9/)
+- Portfolio: [rasyar.netlify.app](https://rasyar.netlify.app/)
 
 ## 🙏 Acknowledgments
 
