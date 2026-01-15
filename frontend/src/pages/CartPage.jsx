@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useCartStore } from "../stores/useCartStore";
 import { motion } from "framer-motion";
 import { ShoppingCart } from "lucide-react";
@@ -9,7 +9,12 @@ import OrderSummary from "../components/OrderSummary.jsx";
 import GiftCouponCard from "../components/GiftCouponCard.jsx";
 
 const CartPage = () => {
-  const { getCartItems, cart } = useCartStore();
+  const getCartItems = useCartStore((state) => state.getCartItems);
+  const cart = useCartStore((state) => state.cart);
+
+  useEffect(() => {
+    getCartItems();
+  }, [getCartItems]);
 
   return (
     <div className="py-8 md:py-16">

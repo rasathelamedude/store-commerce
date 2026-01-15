@@ -5,8 +5,12 @@ import { motion } from "framer-motion";
 import ProductCard from "../components/ProductCard.jsx";
 
 const CategoryPage = () => {
-  const { products, getCategoryProducts } = useProductStore();
+  const products = useProductStore((state) => state.products);
+  const getCategoryProducts = useProductStore(
+    (state) => state.getCategoryProducts
+  );
 
+  // Get the category from the URL params
   const { category } = useParams();
 
   useEffect(() => {

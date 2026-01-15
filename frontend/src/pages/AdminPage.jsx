@@ -16,7 +16,7 @@ const tabs = [
 const AdminPage = () => {
   const [activeTab, setActiveTab] = useState("create");
 
-  const { fetchAllProducts } = useProductStore();
+  const fetchAllProducts = useProductStore((state) => state.fetchAllProducts);
 
   useEffect(() => {
     fetchAllProducts();

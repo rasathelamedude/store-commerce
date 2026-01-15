@@ -9,7 +9,7 @@ const PurchaseSuccessPage = () => {
   const [isProcessing, setIsProcessing] = useState(true);
   const [error, setError] = useState(null);
 
-  const { clearCart } = useCartStore();
+  const clearCart = useCartStore((state) => state.clearCart);
 
   useEffect(() => {
     const handleCheckoutSuccess = async (sessionId) => {

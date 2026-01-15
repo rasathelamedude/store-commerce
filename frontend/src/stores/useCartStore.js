@@ -97,7 +97,7 @@ export const useCartStore = create((set, get) => ({
     let total = subtotal;
 
     if (coupon) {
-      total = subtotal - (subtotal * coupon.discount) / 100;
+      total = subtotal - (subtotal * (coupon.discount / 100));
     }
 
     set({ subtotal, total });

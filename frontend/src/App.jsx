@@ -15,8 +15,10 @@ import { useCartStore } from "./stores/useCartStore.js";
 import PurchaseSuccessPage from "./pages/PurchaseSuccessPage.jsx";
 
 function App() {
-  const { user, checkAuth, checkingAuth } = useUserStore();
-  const { getCartItems } = useCartStore();
+  const user = useUserStore((state) => state.user);
+  const checkingAuth = useUserStore((state) => state.checkingAuth);
+  const checkAuth = useUserStore((state) => state.checkAuth);
+  const getCartItems = useCartStore((state) => state.getCartItems);
 
   useEffect(() => {
     checkAuth();

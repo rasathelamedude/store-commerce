@@ -5,8 +5,8 @@ import { useUserStore } from "../stores/useUserStore.js";
 import { useCartStore } from "../stores/useCartStore.js";
 
 const ProductCard = ({ product }) => {
-  const { user } = useUserStore();
-  const { addToCart } = useCartStore();
+  const user = useUserStore((state) => state.user);
+  const addToCart = useCartStore((state) => state.addToCart);
 
   const handleAddToCart = () => {
     if (!user) {
