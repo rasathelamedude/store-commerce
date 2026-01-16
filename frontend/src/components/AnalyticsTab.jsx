@@ -2,6 +2,16 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import axios from "../lib/axios.js";
 import { Users, Package, ShoppingCart, DollarSign } from "lucide-react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 const AnalyticsTab = () => {
   const [analytics, setAnalytics] = useState({
@@ -18,7 +28,14 @@ const AnalyticsTab = () => {
       try {
         const response = await axios.get("/api/v1/analytics");
         setAnalytics(response.data.data.analyticsData);
-        setDailySales(response.data.data.dailySales);
+
+        // Transform daily sales data to add 'name' key for the chart
+        const transformedData = response.data.data.dailySalesData.map((item) => ({
+          ...item,
+          name: item.date,
+        }));
+        
+        setDailySales(transformedData);
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching analytics data:", error);
@@ -65,6 +82,40 @@ const AnalyticsTab = () => {
           color="from-amber-500 to-orange-700"
         />
       </div>
+
+      <motion.div
+        className="bg-gray-800/60 rounded-lg p-6 shadow-lg"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.25 }}
+      >
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={dailySales}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" stroke="#D1D5DB" />
+            <YAxis yAxisId={"left"} stroke="#D1D5DB" />
+            <YAxis yAxisId={"right"} orientation="right" stroke="#D1D5DB" />
+            <Tooltip />
+            <Legend />
+            <Line
+              yAxisId="left"
+              type="monotone"
+              dataKey="sales"
+              stroke="#10B981"
+              activeDot={{ r: 8 }}
+              name="Sales"
+            />
+            <Line
+              yAxisId="right"
+              type="monotone"
+              dataKey="revenue"
+              stroke="#3B82F6"
+              activeDot={{ r: 8 }}
+              name="Revenue"
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </motion.div>
     </div>
   );
 };

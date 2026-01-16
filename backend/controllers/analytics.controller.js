@@ -65,7 +65,7 @@ async function getDailySalesData(endDate, startDate) {
       },
       {
         $group: {
-          _id: { $dateToString: { format: "%Y-%M-%D", date: "$createdAt" } },
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
           sales: { $sum: 1 },
           revenue: { $sum: "$totalAmount" },
         },
@@ -103,7 +103,8 @@ async function getDailySalesData(endDate, startDate) {
       };
     });
   } catch (error) {
-    console.error(error.message);
+    console.error("Error in getDailySalesData:", error.message);
+    return [];
   }
 }
 
