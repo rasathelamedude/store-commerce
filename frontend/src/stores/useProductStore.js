@@ -2,7 +2,7 @@ import toast from "react-hot-toast";
 import axios from "../lib/axios.js";
 import { create } from "zustand";
 
-export const useProductStore = create((set) => ({
+export const useProductStore = create((set, get) => ({
   products: [],
   loading: false,
 
@@ -101,4 +101,17 @@ export const useProductStore = create((set) => ({
       toast.error(error.response.data.message);
     }
   },
+
+  fetchFeaturedProducts: async () => {
+    set({ loading: true });
+    try {
+      const products = await axios.get(`/api/v1/products/featured`);
+
+      set({ loading: false, products: products.data.data.products });
+    } catch (error) {
+      console.log("Error: " + error.message);
+      set({ loading: false });
+      toast.error("Failed to fetch featured products");
+    }
+  }
 }));
