@@ -30,7 +30,7 @@ export const useUserStore = create((set, get) => ({
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
 
       set({ user: res.data.data.user, loading: false });
@@ -56,7 +56,7 @@ export const useUserStore = create((set, get) => ({
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
 
       set({ user: res.data.data.user, loading: false });
@@ -103,4 +103,57 @@ export const useUserStore = create((set, get) => ({
       toast.error(error.response.data.message);
     }
   },
+
+  refreshToken: async () => {
+    // Prevent multiple simultaneous refresh attempts
+    if (get().checkingAuth) return;
+
+    set({ checkingAuth: true });
+    try {
+      const response = await axios.post("/api/v1/auth/refresh-token");
+      set({ checkingAuth: false });
+      return response;
+    } catch (error) {
+      set({ checkingAuth: false, user: null });
+      throw error;
+    }
+  },
 }));
+
+// Axios interceptors
+let refreshPromise = null;
+
+axios.interceptors.response.use(
+  // If no errors then return the response as it is
+  (response) => response,
+
+  // If there is an error
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        // if a refresh is already in progress wait for it to complete
+        if (refreshPromise) {
+          await refreshPromise;
+          return axios(originalRequest);
+        }
+
+        // Start a new refreshing process
+        refreshPromise = useUserStore.getState().refreshToken();
+        await refreshPromise;
+        refreshPromise = null;
+
+        return axios(originalRequest);
+      } catch (refreshError) {
+        // If refreshing process fails redirect to login
+        useUserStore.getState().logout();
+        return Promise.reject(refreshError);
+      }
+    }
+
+    return Promise.reject(error);
+  },
+);
