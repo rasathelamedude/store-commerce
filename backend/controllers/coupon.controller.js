@@ -26,7 +26,7 @@ export const validateCoupon = async (req, res) => {
   try {
     const { code } = req.body;
 
-    const coupon = await Coupon.find({
+    const coupon = await Coupon.findOne({
       code,
       isActive: true,
       userId: req.user._id,
@@ -65,4 +65,3 @@ export const validateCoupon = async (req, res) => {
     });
   }
 };
-
