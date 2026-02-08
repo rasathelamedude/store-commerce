@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useCartStore } from "../stores/cartStore";
+import { useCartStore } from "../stores/useCartStore.js";
 import { ChevronLeft, ChevronRight, ShoppingCart } from "lucide-react";
 
 const FeaturedProducts = ({ featuredProducts }) => {

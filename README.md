@@ -2,8 +2,6 @@
 
 A modern, full-featured e-commerce platform for clothing retail built with the MERN stack, featuring secure payments, real-time analytics, and an intuitive admin dashboard.
 
-![Store Commerce Banner](screenshots/banner.png)
-
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
 [![React](https://img.shields.io/badge/React-18+-blue.svg)](https://reactjs.org/)
@@ -218,7 +216,7 @@ store-commerce/
 *Review items and apply discount coupons*
 
 ### Admin Dashboard
-![Admin Dashboard](screenshots/admin-dashboard.png)
+![Admin Analytics](screenshots/admin-analytics.png)
 *Real-time analytics and sales metrics*
 
 ![Product Management](screenshots/admin-products.png)
